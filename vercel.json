@@ -1,8 +1,12 @@
 {
+    "version": 2,
     "builds": [
         {
             "src": "Language_tool.py",
-            "use": "@vercel/python"
+            "use": "@vercel/python",
+            "config": {
+                "maxLambdaSize": "250mb"
+            }
         }
     ],
     "routes": [
@@ -10,5 +14,8 @@
             "src": "/(.*)",
             "dest": "Language_tool.py"
         }
-    ]
+    ],
+    "env": {
+        "PYTHONPATH": "."
+    }
 } 

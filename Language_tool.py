@@ -235,7 +235,7 @@ def braille_writing(text):
 def braille_writing_tool(text: str) -> str:
     return braille_writing(text)
 
-
+# Define tools
 tools = [
     Tool(
         name="GrammarChecker",
@@ -284,33 +284,31 @@ tools = [
     )
 ]
 
-# Initialize Agent (zero-shot type)
+# Initialize Agent
 agent = initialize_agent(
     tools=tools,
     llm=llm,
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True,
-    handle_parsing_errors=True  # Add error handling
+    verbose=True
 )
 
 # UI
-st.title("AI Agent Language Assistant")
-st.write("This agent can help you with grammar checking, translation(English to Chinese, Chinese to English), text polish, text simplification, text summarization, and role based writing.")
-st.write("You can also use the tools when you think you are a cat, or a blind person.")
+st.title("AI Language Assistant")
+st.write("This assistant can help you with grammar checking and translation.")
 
-user_input = st.text_area("Tell the agent what you want it to do:")
+user_input = st.text_area("Enter your text or request:")
 
-if st.button("Run Agent"):
+if st.button("Process"):
     if user_input:
-        with st.spinner("Agent is working..."):
+        with st.spinner("Processing..."):
             try:
                 response = agent.run({
                     "input": user_input,
-                    "role": "user"  # Add the required role field
+                    "role": "user"
                 })
                 st.write("Result:")
                 st.write(response)
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
     else:
-        st.warning("Please enter something.")
+        st.warning("Please enter some text.")
