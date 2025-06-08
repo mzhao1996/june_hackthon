@@ -1,0 +1,1 @@
+web: streamlit run Language_tool.py --server.port $PORT 
