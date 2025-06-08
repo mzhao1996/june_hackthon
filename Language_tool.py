@@ -269,8 +269,8 @@ tools = [
     ),
     Tool(
         name="RoleBasedWriting",
-        func=role_based_writing_tool,
-        description="Use this tool to write the text in the role of {role}"
+        func=lambda x: role_based_writing_tool(x, "Professional"),
+        description="Use this tool to write the text in a professional style"
     ),
     Tool(
         name="CatFoot",
@@ -298,16 +298,32 @@ st.title("AI Agent Language Assistant")
 st.write("This agent can help you with grammar checking, translation(English to Chinese, Chinese to English), text polish, text simplification, text summarization, and role based writing.")
 st.write("You can also use the tools when you think you are a cat, or a blind person.")
 
-user_input = st.text_area("Tell the agent what you want it to do:")
+# 创建两列布局
+col1, col2 = st.columns([2, 1])
+
+with col1:
+    user_input = st.text_area("Tell the agent what you want it to do:")
+
+with col2:
+    st.write("Thinking Process:")
+    thinking_container = st.empty()
 
 if st.button("Run Agent"):
     if user_input:
         with st.spinner("Agent is working..."):
             try:
+                # 创建一个回调函数来更新思考过程
+                def thinking_callback(thinking):
+                    thinking_container.write(thinking)
+                
+                # 设置代理的回调函数
+                agent.callback_manager.on_agent_action = thinking_callback
+                
                 response = agent.run({
                     "input": user_input,
-                    "role": "user"  # Add the required role field
+                    "role": "user"
                 })
+                
                 st.write("Result:")
                 st.write(response)
             except Exception as e:
