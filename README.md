@@ -58,7 +58,7 @@ OPENAI_API_KEY=your_api_key_here
 
 1. Run the application:
 ```bash
-streamlit run Language_tool.py
+python -m streamlit run Language_tool.py --server.headless true
 ```
 
 2. Open the displayed address in your browser (usually http://localhost:8501)
