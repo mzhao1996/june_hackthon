@@ -295,6 +295,7 @@ agent = initialize_agent(
 # UI
 st.title("AI Agent Language Assistant")
 st.write("This agent can help you with grammar checking, translation(English to Chinese, Chinese to English), text polish, text simplification, text summarization, and role based writing.")
+st.write("You can also use the tools when you think you are a cat, or a blind person.")
 user_input = st.text_area("Tell the agent what you want it to do:")
 
 if st.button("Run Agent"):
