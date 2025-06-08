@@ -3,7 +3,7 @@ import streamlit as st
 from openai import OpenAI
 from dotenv import load_dotenv
 from langchain.agents import initialize_agent, Tool
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.agents.agent_types import AgentType
 import random
 import string
@@ -289,20 +289,25 @@ agent = initialize_agent(
     tools=tools,
     llm=llm,
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True
+    verbose=True,
+    handle_parsing_errors=True  # Add error handling
 )
 
 # UI
 st.title("AI Agent Language Assistant")
 st.write("This agent can help you with grammar checking, translation(English to Chinese, Chinese to English), text polish, text simplification, text summarization, and role based writing.")
 st.write("You can also use the tools when you think you are a cat, or a blind person.")
+
 user_input = st.text_area("Tell the agent what you want it to do:")
 
 if st.button("Run Agent"):
     if user_input:
         with st.spinner("Agent is working..."):
-            response = agent.run(user_input)
-            st.write("Result:")
-            st.write(response)
+            try:
+                response = agent.run({"input": user_input})
+                st.write("Result:")
+                st.write(response)
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
     else:
         st.warning("Please enter something.")

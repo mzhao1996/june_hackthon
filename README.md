@@ -34,7 +34,10 @@ The tool integrates the following main features:
 - Streamlit
 - OpenAI API (GPT-3.5-turbo)
 - LangChain
+- langchain-openai
+- langchain-community
 - dotenv
+- pytest (for testing)
 
 ## Installation
 
@@ -67,6 +70,24 @@ python -m streamlit run Language_tool.py --server.headless true
    - "Please check the grammar of this English text"
    - "Translate this Chinese text to English"
    - "Rewrite this text as a professional writer"
+
+## Running Tests
+
+1. Make sure all dependencies are installed:
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the test suite using pytest:
+```bash
+python -m pytest test_language_tool.py -v
+```
+- All tests should pass. If you want to run all test files, use:
+```bash
+python -m pytest -v
+```
+
+3. Check the terminal output for detailed test results.
 
 ## Important Notes
 
