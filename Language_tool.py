@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from langchain.agents import initialize_agent, Tool
 from langchain_openai import ChatOpenAI
 from langchain.agents.agent_types import AgentType
+from langchain.callbacks import StreamlitCallbackHandler
 import random
 import string
 
@@ -298,7 +299,7 @@ st.title("AI Agent Language Assistant")
 st.write("This agent can help you with grammar checking, translation(English to Chinese, Chinese to English), text polish, text simplification, text summarization, and role based writing.")
 st.write("You can also use the tools when you think you are a cat, or a blind person.")
 
-# 创建两列布局
+# Create two columns layout
 col1, col2 = st.columns([2, 1])
 
 with col1:
@@ -312,17 +313,14 @@ if st.button("Run Agent"):
     if user_input:
         with st.spinner("Agent is working..."):
             try:
-                # 创建一个回调函数来更新思考过程
-                def thinking_callback(thinking):
-                    thinking_container.write(thinking)
+                # Create Streamlit callback handler
+                callbacks = [StreamlitCallbackHandler(thinking_container)]
                 
-                # 设置代理的回调函数
-                agent.callback_manager.on_agent_action = thinking_callback
-                
-                response = agent.run({
-                    "input": user_input,
-                    "role": "user"
-                })
+                # Run agent with callbacks
+                response = agent.run(
+                    input=user_input,
+                    callbacks=callbacks
+                )
                 
                 st.write("Result:")
                 st.write(response)
