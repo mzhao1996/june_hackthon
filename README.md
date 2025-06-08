@@ -18,7 +18,7 @@ A simple web application that uses OpenAI's GPT-3.5 to check English grammar and
 
 1. Run the application:
    ```bash
-   streamlit run grammar_checker.py
+   python -m streamlit run grammar_checker.py --server.headless true
    ```
 2. Open your web browser and navigate to the URL shown in the terminal (usually http://localhost:8501)
 3. Enter your text in the input area and click "Check Grammar"
