@@ -185,7 +185,7 @@ def role_based_writing_tool(text: str, role: str) -> str:
     return role_based_writing(text, role)
 
 # Define cat foot function
-def cat_foot():
+def cat_foot(role: str):
     # Define character sets
     letters = string.ascii_letters
     digits = string.digits
@@ -199,8 +199,8 @@ def cat_foot():
     return random_string
 
 # Define cat foot tool for agent
-def cat_foot_tool():
-    return cat_foot()
+def cat_foot_tool(role: str):
+    return cat_foot(role)
 
 # Define braille writing function
 def braille_writing(text):
@@ -304,7 +304,10 @@ if st.button("Run Agent"):
     if user_input:
         with st.spinner("Agent is working..."):
             try:
-                response = agent.run({"input": user_input})
+                response = agent.run({
+                    "input": user_input,
+                    "role": "user"  # Add the required role field
+                })
                 st.write("Result:")
                 st.write(response)
             except Exception as e:
